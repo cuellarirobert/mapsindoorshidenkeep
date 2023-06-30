@@ -22,4 +22,5 @@ function handleLocationClick(location, mapsIndoorsInstance, mapInstance) {
   document.getElementById('location-venue').innerText = location.properties.venue;
   document.getElementById('location-floor').innerText = location.properties.floorName;
   document.getElementById('location-type').innerText = location.properties.type;
+  document.getElementById('location-externalid').innerText = location.properties.externalid;
 }
