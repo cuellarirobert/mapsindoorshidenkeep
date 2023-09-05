@@ -181,7 +181,7 @@ mapsindoors.services.LocationsService.getLocations({types: 'Unit'})
         polygonZoomFrom: 16,
         polygonZoomTo: 22,
         visible: true,
-        polygonFillColor: "#90ee90",  // Green for available
+        polygonFillColor: "#76C893",  // Green for available
     });
 
     mapsIndoorsInstance.setDisplayRule(reservedUnitIds, {
@@ -190,7 +190,7 @@ mapsindoors.services.LocationsService.getLocations({types: 'Unit'})
         polygonZoomFrom: 16,
         polygonZoomTo: 22,
         visible: true,
-        polygonFillColor: "#ffcc00",  // Yellow for reserved
+        polygonFillColor: "#DAA520",  // Yellow for reserved
     });
 
     mapsIndoorsInstance.setDisplayRule(unavailableUnitIds, {
@@ -199,7 +199,7 @@ mapsindoors.services.LocationsService.getLocations({types: 'Unit'})
         polygonZoomFrom: 16,
         polygonZoomTo: 22,
         visible: true,
-        polygonFillColor: "#ff0000",  // Red for unavailable
+        polygonFillColor: "#B22222",  // Red for unavailable
     });
 
 })
