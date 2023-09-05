@@ -1,6 +1,6 @@
 import { defineCustomElements } from 'https://www.unpkg.com/@mapsindoors/components/dist/esm/loader.js';
-import { placeSearch } from './components/search/search.js';
 import { initializeMapClicks } from './components/mapInteraction/clickListening.js';
+import { placeSearch } from './components/search/search.js';
 
 
 let mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN
@@ -15,18 +15,24 @@ const addressDisplay = document.getElementById('building-address');
 
 let buildings; // Declare the buildings variable
 
-// Function to populate the venue selector dropdown
+
 function populateVenueSelector(venues) {
-  venues.forEach(venue => {
+  venues.forEach((venue, index) => {
     const option = document.createElement('option');
     option.value = venue.id;
     option.textContent = venue.name;
     venueSelector.appendChild(option);
 
-  });
+    // Set the default selected option to the 4th venue in the array for Hide and Keep
+    if (index === 3) {
+      option.selected = true;
+    }
+  }); 
+
+
 
   // Trigger building selector population with the first venue
-  const firstVenueId = venues[0].id;
+  const firstVenueId = venues[3].id;
   populateBuildingSelector(firstVenueId);
 }
 
@@ -78,7 +84,7 @@ const mapViewOptions = {
   accessToken: mapboxToken,
   element: document.getElementById('map'),
   center: { lat: 48.146443278182595, lng: 17.130318221624492 },
-  zoom: 20,
+  zoom: 19,
   maxZoom: 22,
 };
 
@@ -103,7 +109,7 @@ mapsIndoorsInstance.on('ready', () => {
   mapsindoors.services.VenuesService.getVenues().then(venues => {
 
             console.log(venues);
-            const anchorCoordinates = venues[0].anchor.coordinates;
+            const anchorCoordinates = venues[3].anchor.coordinates;
             mapInstance.setCenter(anchorCoordinates);
             // mapsIndoorsInstance.setCenter(anchorCoordinates);
         }).catch(error => {
@@ -135,10 +141,71 @@ venueSelector.addEventListener('change', event => {
     const anchorCoordinates = venue.anchor.coordinates;
     mapInstance.setCenter(anchorCoordinates);
     mapsIndoorsInstance.setZoom(20);
-    miSearchElement.setAttribute('mi-venue', venueId);
+    miSearchElement.setAttribute('mi-venue', venue.id);
+    placeSearchElement.setAttribute('mi-near', venue.id);
   });
 });
 
+
+mapsindoors.services.LocationsService.getLocations({types: 'Unit'})
+.then(locations => {
+    console.log("Number of locations returned:", locations.length);
+
+    let availableUnits = [];
+    let reservedUnits = [];
+    let unavailableUnits = [];
+
+    // Randomly assign units to available, reserved, or unavailable
+    locations.forEach(location => {
+        const randNum = Math.random();
+
+        if (randNum < 0.1) {
+            availableUnits.push(location);
+        } else if (randNum < 0.2) {
+            reservedUnits.push(location);
+        } else {
+            unavailableUnits.push(location);
+        }
+    });
+
+    // Extract the MapsIndoors location IDs
+    const availableUnitIds = availableUnits.map(location => location.id);
+    const reservedUnitIds = reservedUnits.map(location => location.id);
+    const unavailableUnitIds = unavailableUnits.map(location => location.id);
+
+    // Apply display rules for each type
+    // Customize this part according to the real MapsIndoors instance you have
+    mapsIndoorsInstance.setDisplayRule(availableUnitIds, {
+        polygonVisible: true,
+        polygonFillOpacity: 1,
+        polygonZoomFrom: 16,
+        polygonZoomTo: 22,
+        visible: true,
+        polygonFillColor: "#90ee90",  // Green for available
+    });
+
+    mapsIndoorsInstance.setDisplayRule(reservedUnitIds, {
+        polygonVisible: true,
+        polygonFillOpacity: 1,
+        polygonZoomFrom: 16,
+        polygonZoomTo: 22,
+        visible: true,
+        polygonFillColor: "#ffcc00",  // Yellow for reserved
+    });
+
+    mapsIndoorsInstance.setDisplayRule(unavailableUnitIds, {
+        polygonVisible: true,
+        polygonFillOpacity: 1,
+        polygonZoomFrom: 16,
+        polygonZoomTo: 22,
+        visible: true,
+        polygonFillColor: "#ff0000",  // Red for unavailable
+    });
+
+})
+.catch(error => {
+    console.error("An error occurred:", error);
+});
 
 
 

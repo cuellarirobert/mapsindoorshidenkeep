@@ -1,17 +1,19 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Work Order Software</title>
-       <link rel="stylesheet" type="text/css" href="src/css/style.css">
-       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Hide & Keep: Rental Units</title>
+    <link rel="stylesheet" type="text/css" href="src/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-
-     <script type="module" src="/src/js/main.js"></script>
+    <script type="module" src="/src/js/main.js"></script>
     <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
     <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet">
-    <script src="https://app.mapsindoors.com/mapsindoors/js/sdk/4.21.2/mapsindoors-4.21.2.js?apikey=943086567579423fb8d7b574"></script>
+    <script
+        src="https://app.mapsindoors.com/mapsindoors/js/sdk/CandidateReleases/4.24.7-rc0/mapsindoors-4.24.7-rc0.js?apikey=0dd01b173fe541df87873b9e"></script>
 </head>
+
 <body>
     <nav>
         <div class="nav-container">
@@ -19,57 +21,54 @@
                 <a href="#"><img src="src/images/logo.png" alt="Logo"></a>
             </div>
             <ul class="nav-menu">
-                <li><a href="#">Home</a></li>
+                <li><a href="#">Order Unit</a></li>
                 <li><a href="#">About</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
         </div>
     </nav>
+
     <header>
-        <h1>Submit a new work order!</h1>
+        <h1>Reserve Your Rental Unit at Hide & Keep!</h1>
     </header>
+
+
+
+
+
+
+
+
     <div class="app-container">
         <div class="sidebar">
-<div class="venueselector-container">
-  <div class="form-row">
-    <div class="form-group">
-      <label for="venue-select">Select Venue:</label>
-      <select id="venue-select"></select>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group">
-      <label for="building-select">Select Building:</label>
-      <select id="building-select"></select>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group">
-      <label for="building-address">Building Address:</label>
-      <div id="building-address"></div>
-    </div>
-  </div>
-</div>
-<div class="mi-search-container">
-                <mi-search id="search-input" mapsindoors="true" google="false" placeholder="Enter Place Name"></mi-search>
+            <div class="venueselector-container">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="venue-select">Select Venue:</label>
+                        <select id="venue-select"></select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="building-select">Select Building:</label>
+                        <select id="building-select"></select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="building-address">Building Address:</label>
+                        <div id="building-address"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mi-search-container">
+                <mi-search id="search-input" mapsindoors="true" google="false"
+                    placeholder="Enter Place Name"></mi-search>
                 <mi-list id="search-list"></mi-list>
             </div>
-
-
-
-            <div class="work-orders-form">
-                <form id="work-order-form">
-                    <h2>Submit Work Order</h2>
-                    <label for="requester-name">Your Name</label>
-                    <input type="text" id="requester-name" name="requester-name" required>
-                    
-                    <label for="requester-contact">Your Contact Details</label>
-                    <input type="text" id="requester-contact" name="requester-contact" required>
-
-
-                    <div id="location-info">
+            <div id="location-info">
                 <h3>Location Information</h3>
-                <table class ="styled-table">
+                <table class="styled-table">
                     <tr>
                         <td>Name</td>
                         <td id="location-name"></td>
@@ -96,37 +95,60 @@
                     </tr>
                 </table>
             </div>
-                    
-                    <label for="work-order-title">Work Order Title:</label>
-                    <input type="text" id="work-order-title" name="work-order-title" required>
-                    
-                    <label for="work-order-description">Description:</label>
-                    <textarea id="work-order-description" name="work-order-description" rows="4" required></textarea>
-                    
-                    <label for="work-order-priority">Priority:</label>
-                    <select id="work-order-priority" name="work-order-priority">
-                        <option value="low">Low</option>
+            <div class="rental-form" style="padding: 20px; background-color: #f2f2f2; border-radius: 10px;">
+                <form id="rental-unit-form">
+                    <h2 style="text-align: center; font-weight: bold;">Reserve a Unit</h2>
+                    <label for="location-externalid-input"
+                        style="font-weight: bold; display: block; margin-bottom: 5px;">Selected Unit ID</label>
+                    <input type="text" id="location-externalid-input" name="location-externalid" readonly
+                        style="width: 100%; padding: 10px; margin-bottom: 20px; background-color: #e9ecef;">
+
+                    <label for="customer-name" style="font-weight: bold; display: block; margin-bottom: 5px;">Your
+                        Name</label>
+                    <input type="text" id="customer-name" name="customer-name" required
+                        style="width: 100%; padding: 10px; margin-bottom: 20px;">
+
+                    <label for="customer-contact" style="font-weight: bold; display: block; margin-bottom: 5px;">Your
+                        Contact Details</label>
+                    <input type="text" id="customer-contact" name="customer-contact" required
+                        style="width: 100%; padding: 10px; margin-bottom: 20px;">
+
+                    <label for="unit-size" style="font-weight: bold; display: block; margin-bottom: 5px;">Select Unit
+                        Size</label>
+                    <select id="unit-size" name="unit-size" style="width: 100%; padding: 10px; margin-bottom: 20px;">
+                        <option value="small">Small</option>
                         <option value="medium">Medium</option>
-                        <option value="high">High</option>
+                        <option value="large">Large</option>
                     </select>
 
-                    <label for="work-order-date">Date Needed:</label>
-                    <input type="date" id="work-order-date" name="work-order-date" required>
+                    <label for="rental-date" style="font-weight: bold; display: block; margin-bottom: 5px;">Start
+                        Date</label>
+                    <input type="date" id="rental-date" name="rental-date" required
+                        style="width: 100%; padding: 10px; margin-bottom: 20px;">
 
-                    <label for="work-order-attachment">Attachments:</label>
-                    <input type="file" id="work-order-attachment" name="work-order-attachment">
-                    
-                    <button type="submit">Submit</button>
+                    <label for="rental-duration" style="font-weight: bold; display: block; margin-bottom: 5px;">Rental
+                        Duration (in months)</label>
+                    <input type="number" id="rental-duration" name="rental-duration" min="1" required
+                        style="width: 100%; padding: 10px; margin-bottom: 20px;">
+
+                    <label for="additional-requirements"
+                        style="font-weight: bold; display: block; margin-bottom: 5px;">Additional Requirements</label>
+                    <textarea id="additional-requirements" name="additional-requirements" rows="4"
+                        style="width: 100%; padding: 10px; margin-bottom: 20px;"></textarea>
+
+                    <button type="submit"
+                        style="background-color: #007bff; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer;">Reserve
+                        Now</button>
                 </form>
             </div>
-            
-
         </div>
+
         <div class="content">
             <div id="map" class="map"></div>
         </div>
     </div>
+
     <script type="module" src="/src/js/main.js"></script>
 </body>
-</html>
 
+</html>

@@ -1,22 +1,30 @@
+
+
+
 export function placeSearch(miSearchElement, miListElement, mapsIndoorsInstance, mapInstance) {
+  // console.log('search initialized');
 
-  // //set the state of the previousId to null
-let previousId = null
-
-
-  miSearchElement.addEventListener('results', (event) => {
+let previousId = null;
+miSearchElement.addEventListener('results', (event) => {
+  console.log(event);
     // Reset search results list
     miListElement.innerHTML = null;
 
     // Append new search results
     event.detail.forEach(location => {
       const miListItemElement = document.createElement('mi-list-item-location');
-      location.properties.imageURL = mapsIndoorsInstance.getDisplayRule(location).icon
+    location.properties.imageURL = mapsIndoorsInstance.getDisplayRule(location).icon
       miListItemElement.location = location;
+      miListItemElement.showExternalId = false;
+
+
 
       miListElement.appendChild(miListItemElement);
     });
   });
+
+
+
 
   miSearchElement.addEventListener('cleared', (event) => {
     // Reset search results list
